@@ -1,6 +1,6 @@
 # David Chen (@cooldavidie)
 
-**I build AI products end to end, solo** — from large-scale data pipelines and physics-level simulators to production SaaS with real users, billing, and multilingual RAG.
+**I build AI application/product end to end, solo** — from large-scale data pipelines and physics-level simulators to production SaaS with real users, billing, and multilingual RAG.
 
 - **[DataAssistant AI](https://www.dataassistant-ai.com)** — AI sales rep for industrial distributors. Live multi-tenant SaaS: Claude + RAG grounded in the customer's own catalog, human-approved replies in 5 languages, Stripe billing. *(live product, private code)*
 - **[CA-SIM](https://cooldavidie.github.io/ca-sim-demo/)** — event-level digital twin of AI data-center power & cooling, running entirely in the browser, plus an open event-dictionary spec ([EDL](https://github.com/cooldavidie/edl-dict)). *(public demo + open spec)*
