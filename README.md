@@ -3,7 +3,7 @@
 **I build AI application/product end to end, solo** — from large-scale data pipelines and physics-level simulators to production SaaS with real users, billing, and multilingual RAG.
 
 - **[DataAssistant AI](https://www.dataassistant-ai.com)** — AI sales rep for industrial distributors. Live multi-tenant SaaS: Claude + RAG grounded in the customer's own catalog, human-approved replies in 5 languages, Stripe billing. *(live product, private code)*
-- **[CA-SIM](https://cooldavidie.github.io/ca-sim-demo/)** — event-level digital twin of AI data-center power & cooling, running entirely in the browser, plus an open event-dictionary spec ([EDL](https://github.com/cooldavidie/edl-dict)). *(public demo + open spec)*
+- **[CA-SIM](https://cooldavidie.github.io/ca-sim-demo/)** — event-level digital twin of AI data-center power & cooling (grid, load, fault and N-1 events), running entirely in the browser, plus an open event-dictionary spec ([EDL](https://github.com/cooldavidie/edl-dict)). *(public demo + open spec)*
 - **TrueProductData** — a 720k-product industrial data platform with a provenance-first schema, served to AI agents over MCP. *(private infra)*
 
 davidchen.cch@gmail.com · [dataassistant-ai.com](https://www.dataassistant-ai.com)
@@ -37,13 +37,14 @@ Plugs into a sales team's Gmail or Outlook inbox, scores leads, runs outbound ca
 
 **Try it:** [live demo](https://cooldavidie.github.io/ca-sim-demo/) · **Open spec:** [EDL event dictionary](https://github.com/cooldavidie/edl-dict) (CC-BY 4.0)
 
-For any electrical or cooling event — a grid voltage dip, a source-transfer gap, a feeder fault, a 2 Hz GPU training power cycle — CA-SIM answers: **how much compute is lost, for how long, and what margin remains.** Event-level hybrid engine (dt = 0.5 ms) over SST / BESS / 800 VDC / UPS / CDU / GPU-rack architectures, running entirely in the browser.
+For any electrical or cooling event — a grid voltage dip, a source-transfer gap, a feeder fault, a 2 Hz GPU training power cycle, a single device failing (N-1) — CA-SIM answers: **how much compute is lost, for how long, and what margin remains.** Event-level hybrid engine (dt = 0.5 ms) over SST / BESS / 800 VDC / UPS / CDU / GPU-rack architectures, running entirely in the browser.
 
-- **Zero-dependency numerics** — ODE integration, Durand–Kerner polynomial root-finding, marching-squares contours, a µs-level protection-window EMT module, and OpenUSD export are all hand-written; React is the only runtime dependency.
+- **Zero-dependency numerics** — ODE integration, Durand–Kerner polynomial root-finding, marching-squares contours, a µs-level protection-window module for fault clearing and selectivity, and OpenUSD export are all hand-written; React is the only runtime dependency.
 - **EDL (Event Description Language)** — an open, versioned dictionary of data-center power/load events with machine-readable waveform profiles and **mandatory provenance** (grid-code clause, published incident, or public dataset). Certificates cite the exact dictionary version.
-- **Coverage certificates** — parameter sweeps run in a Web Worker into pass / derate / outage heatmaps with zero-margin contours, exported as fingerprinted (sha256) JSON or a print-ready report, plus a diff mode that flags pass→fail flips against a prior certificate.
-- **Calibrated against public data** — MIT Supercloud V100 traces and published GenAI H100 power profiles; every model parameter carries a declared calibration grade. Includes a DC-link control-loop resonance screening module validated against published cases (and the derivation caught a sign error in the source paper).
-- **Physics under test** — 137 tests including a golden-value regression suite treated as a contract: changing a default parameter *is* changing a golden value.
+- **Coverage certificates** — parameter sweeps run in a Web Worker into pass / derate / outage heatmaps with zero-margin contours, exported as fingerprinted (sha256) JSON or a print-ready report, plus a diff mode that flags pass→fail flips against a prior certificate. An admissibility rule decides which parameters may be swept on a given diagram, and cells the criterion cannot decide — or that sit on a model-assumption boundary — are labelled as such rather than coloured.
+- **Grid-code ride-through as data** — one registry of 25 public ride-through rules (ERCOT, PJM, CAISO, MISO, NERC, ENTSO-E, EU, UK, AU, OCP, ITIC, SEMI F47, IEC 61000-4-11 …), each with its source clause and its evaluation reading; the simulator reports non-compliance as the architecture's answer instead of tuning the model to pass.
+- **Calibrated against public data** — MIT Supercloud V100 traces and published GenAI H100 power profiles; every model parameter carries a declared calibration grade and every default carries a provenance record. Includes a DC-link control-loop resonance screening module validated against published cases (and the derivation caught a sign error in the source paper).
+- **Physics under test** — 1,000+ tests: a golden-value regression suite treated as a contract (changing a default *is* changing a golden value), order-invariance and quiescence witnesses, mutation-checked fixes, a statement-exact registry of every "pick the first of several" in the engine, and a validation ladder that computes what may be signed — today nothing is, and the certificate says so. Seven rounds of independent adversarial review are recorded in the repo's design log.
 
 ---
 
